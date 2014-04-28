@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="/templates/template.xhtml">
+
+
+    <ui:define name="content">
+        <h:form styleClass="form-horizontal" role="form">
+
+            <div class="form-group">
+                <label for="taskname" class="col-sm-2 control-label">Taskname</label>
+                <div class="col-sm-10">
+                    <h:inputText value="#{customerView.customer.name}" styleClass="form-control" >
+                        <f:passThroughAttribute name="placeholder" value="please enter name"/>
+                    </h:inputText>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <h:commandButton action="#{customerView.createAddress()}" value="create address" styleClass="btn btn-primary">
+                        <f:ajax event="action" render="addresslist"/>
+                    </h:commandButton>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <h:panelGroup id="addresslist">
+                        <h:dataTable styleClass="table"  value="#{customerView.customer.addresses}" var="addr">
+                            <h:column>
+                                #{addr.id}
+                            </h:column>
+                            <h:column>
+                                #{addr.street}
+                            </h:column>
+                            <h:column>
+                                <h:commandButton value="del" action="#{customerView.removeAddress(addr)}">
+                                </h:commandButton>
+                            </h:column>
+                        </h:dataTable>
+                    </h:panelGroup>
+                </div>
+            </div>
+            <div class="form-group">
+
+                <div class="col-sm-offset-2 col-sm-10">
+                    <h:commandButton action="#{customerView.save()}" value="save" styleClass="btn btn-success"></h:commandButton>
+
+                    <h:commandButton action="#{customerView.cancel()}" value="cancel" styleClass="btn btn-danger" rendered="#{not empty customerView.customer.id}" ></h:commandButton>
+                </div>
+            </div>
+
+        </h:form>
+    </ui:define>
+</ui:composition>
